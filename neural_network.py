@@ -106,6 +106,9 @@ class NeuralNetwork:
         t = dataset.get_classification()
         return np.sum(np.round(y) - t)
 
+    def classify_dataset(self, parameters, dataset):
+        y = self.calc_multiple_output(parameters, dataset)
+        return np.round(y)
 
 
     def get_number_of_parameters(self):

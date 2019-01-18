@@ -28,7 +28,7 @@ class Chromosome:
 
 
 class GeneticAlgorithm:
-    def __init__(self, population_size, network, data, pm1=0.01, pm2=0.01, sigma1=0.5, sigma2=1, sigma3=1, k=3, t1=1, t2=1, t3=1, elitism=3):
+    def __init__(self, population_size, network, data, pm1=0.02, pm2=0.04, sigma1=0.1, sigma2=1, sigma3=1, k=3, t1=1, t2=1, t3=0.6, elitism=2):
         self.population_size = population_size
         self.population = []
         for i in range(population_size):
@@ -139,6 +139,7 @@ class GeneticAlgorithm:
             return self.uniform_crossover(parent1, parent2)
 
     def run_algorithm(self, epsilon=0.0000001, max_iterations=50000):
+        self.evaluate_population()
         for i in range(max_iterations):
             self.evaluate_population()
             self.population.sort(key=lambda x: x.badness)
@@ -167,10 +168,6 @@ class GeneticAlgorithm:
                 new_population.append(child)
 
             self.population = new_population
-
-
-
-
 
 
 nn = neural_network.NeuralNetwork([2, 8, 3])
