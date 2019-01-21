@@ -110,7 +110,6 @@ class NeuralNetwork:
         y = self.calc_multiple_output(parameters, dataset)
         return np.round(y)
 
-
     def get_number_of_parameters(self):
         number = 0
         for layer in self.layers:

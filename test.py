@@ -3,7 +3,7 @@ import neural_network
 import dataset
 import random
 import matplotlib.pyplot as plt
-
+import pandas as pd
 nn = neural_network.NeuralNetwork([2, 8, 3])
 
 # parameters = nn.get_parameters()
@@ -41,10 +41,33 @@ print(zero_one_error)
 classified = nn.classify_dataset(parameters, data)
 print(classified)
 x = data.get_x_y()
+# plt.plot(1, 2, 1)
 # plot = plt.scatter(x[:, 0], x[:, 1], c=np.argmax(classified, axis=1))
-# plt.scatter(nn.layers[0].w[:, 0], nn.layers[0].w[:, 1], label='w')
+def get_class(row):
+    for c in data.columns:
+        if row[c] == 1:
+            return c
+
+data32 = pd.read_table('zad7-dataset.txt', '\t', names=['x', 'y', 'a', 'b', 'c'])
+class_a = data32.loc[data32.a == 1]
+class_b = data32.loc[data32.b == 1]
+class_c = data32.loc[data32.c == 1]
+
+# plt.scatter(class_a['x'], class_a['y'], label='class a')
+# plt.scatter(class_b['x'], class_b['y'], label='class b')
+# plt.scatter(class_c['x'], class_c['y'], label='class c')
 # plt.legend(loc='best')
 # plt.show()
+plt.scatter(nn.layers[0].w[:, 0], nn.layers[0].w[:, 1], label='w [2 , 8 , 3]')
+x = range(0, 8)
+print(nn.layers[1].weights[:,0])
+plt.scatter(x, nn.layers[1].weights[:,0], label='Težine A')
+plt.scatter(x, nn.layers[1].weights[:,1], label='Težine B')
+plt.scatter(x, nn.layers[1].weights[:,2], label='Težine C')
+print("weights")
+print(nn.layers[1].weights)
+plt.legend(loc='best')
+plt.show()
 print(nn.layers[0].s)
 
 parameters2 = [4.02105624e-01, 2.78389424e-01, 1.22759760e+00, 5.92397696e-01, 1.03943280e-01, 7.32920428e-01,
@@ -61,10 +84,37 @@ parameters2 = [4.02105624e-01, 2.78389424e-01, 1.22759760e+00, 5.92397696e-01, 1
                -3.80630006e-05]
 
 nn2 = neural_network.NeuralNetwork([2, 6, 4, 3])
-classified2 = nn2.classify_dataset(parameters2, data)
-print(nn2.calc_zero_one_error(parameters2, data))
-print(nn2.layers[0].s)
-plot = plt.scatter(x[:, 0], x[:, 1], c=np.argmax(classified2, axis=1))
-plt.scatter(nn2.layers[0].w[:, 0], nn2.layers[0].w[:, 1], label='w')
-plt.legend(loc='best')
-plt.show()
+# classified2 = nn2.classify_dataset(parameters2, data)
+# plt.plot(1, 2, 2)
+# print(nn2.calc_zero_one_error(parameters2, data))
+# print(nn2.layers[0].s)
+# plot = plt.scatter(x[:, 0], x[:, 1], c=np.argmax(classified2, axis=1))
+# plt.scatter(nn2.layers[0].w[:, 0], nn2.layers[0].w[:, 1], label='w [2, 6, 4, 3')
+
+parameters3 = [ 8.92721336e-01, 2.43593419e-01, 1.30923900e-01, 2.23939262e-01,
+  2.89384487e-01, 5.16882651e-01, 1.21815173e-01, 3.34443804e-01,
+  5.92040892e-01, 7.48883925e-01, 4.89330174e-01, 2.20798590e-01,
+  8.50696826e-01, 7.49407046e-01, 1.03332453e+00, 8.12449787e-01,
+  7.47546285e-02,-2.21493054e-01,-8.46632457e-02, 1.63732727e-01,
+ -3.68207680e+00, 3.48907488e-02,-1.06818484e-01,-1.07755414e-01,
+ -6.32628877e-02, 2.65494320e-01,-1.10777438e-01,-1.62441703e-01,
+ -1.46840841e-01, 3.47544281e-01, 5.12650540e+00, 7.37870865e-01,
+  5.98828759e-01, 4.25528380e+00,-9.81809764e+00,-2.96311288e+01,
+  1.05375448e+01, 4.11924118e+00,-2.45651302e+00,-7.61098850e+00,
+ -5.18198660e+00,-2.68548466e+00, 4.31958181e+00, 1.66914677e+01,
+  1.00037678e+01, 2.97697876e+00, 6.10009649e-01, 6.80423143e-01,
+ -2.45350629e+01, 9.09772967e+00,-1.55658991e+01, 2.47481615e+00,
+  2.68665012e+00,-5.06235061e+00, 2.29313443e+01, 2.40236463e+00,
+  5.51299190e+00,-1.87686654e+00,-6.74348257e-01, 1.05223946e+01,
+ -1.03901886e+00,-2.73560401e+00, 1.65800416e+00, 1.87880383e+00,
+ -1.67331599e-01,-2.05154355e-01, 2.04497791e-02, 2.54821985e+00,
+  1.19576718e+01, 4.07394755e+01,-4.17789262e+01, 4.40326919e+01,
+ -7.01508409e+01,-2.31386439e+01,-2.46120739e+01,-1.59109793e+00,
+  2.50059573e+01,-1.66583296e+00,-2.56517067e-01,-2.20615178e+00,
+  9.15251718e-06, 2.22106969e-04,-1.73409749e-04]
+
+# nn3 = neural_network.NeuralNetwork([2, 8, 4, 3])
+# classified3 = nn3.classify_dataset(parameters3, data)
+# plt.scatter(nn3.layers[0].w[:, 0], nn3.layers[0].w[:, 1], label='w [2 , 8, 4 , 3]')
+# plt.legend(loc='best')
+# plt.show()

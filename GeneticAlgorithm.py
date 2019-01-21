@@ -4,6 +4,7 @@ import numpy as np
 import neural_network
 import dataset
 
+
 class Chromosome:
     def __init__(self, number_of_genes):
         self.number_of_genes = number_of_genes
@@ -22,13 +23,16 @@ class Chromosome:
     def set_gene(self, index, gene):
         self.genes[index] = gene
 
+    def get_genes_string(self):
+        string = ', '.join(str(gene) for gene in self.genes)
+        return '[' + string + ']'
+
     def __len__(self):
         return self.number_of_genes
 
 
-
 class GeneticAlgorithm:
-    def __init__(self, population_size, network, data, pm1=0.02, pm2=0.04, sigma1=0.1, sigma2=1, sigma3=1, k=3, t1=1, t2=1, t3=0.6, elitism=2):
+    def __init__(self, population_size, network, data, pm1=0.01, pm2=0.01, sigma1=0.5, sigma2=1, sigma3=1, k=3, t1=1, t2=1, t3=0.6, elitism=2):
         self.population_size = population_size
         self.population = []
         for i in range(population_size):
@@ -47,7 +51,6 @@ class GeneticAlgorithm:
         self.v2 = t2 / t
         self.v3 = t3 / t
         self.elitism = elitism
-
 
     @staticmethod
     def arithmetic_recombination(chromosome1, chromosome2):
@@ -149,9 +152,9 @@ class GeneticAlgorithm:
                 print("error:", error)
                 print("generation:", i)
 
-            if i%100 == 0 or error < epsilon:
+            if i%1000 == 0 or error < epsilon:
                 file = open('parameters.txt', 'a')
-                file.write(str(best.get_genes()))
+                file.write(best.get_genes_string())
                 file.write('\n')
                 file.close()
                 if error < epsilon:
@@ -174,3 +177,5 @@ nn = neural_network.NeuralNetwork([2, 8, 3])
 ds = dataset.Dataset('zad7-dataset.txt')
 ga = GeneticAlgorithm(30, nn, ds)
 ga.run_algorithm()
+
+# [2, 6, 4, 3] population_size=30,pm1=0.01, pm2=0.01, sigma1=0.5, sigma2=1, sigma3=1, k=3, t1=1, t2=1, t3=0.6, elitism=2 - 10320
